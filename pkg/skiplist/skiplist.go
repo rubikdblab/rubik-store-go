@@ -58,7 +58,7 @@ func (s *Skiplist) Search(key []byte) *Entry {
 	}
 
 	candidate := n.forward[0]
-	if candidate != nil && bytes.Compare(key, candidate.entry.Key) == 0 {
+	if candidate != nil && bytes.Equal(key, candidate.entry.Key) {
 		return candidate.entry
 	}
 	return nil
@@ -75,7 +75,7 @@ func (s *Skiplist) Insert(entry *Entry) {
 		toUpdate[l] = n
 	}
 
-	if n.forward[0] != nil && bytes.Compare(entry.Key, n.forward[0].entry.Key) == 0 {
+	if n.forward[0] != nil && bytes.Equal(entry.Key, n.forward[0].entry.Key) {
 		n.forward[0].entry = entry
 		return
 	}
@@ -112,7 +112,7 @@ func (s *Skiplist) Remove(key []byte) {
 		toUpdate[l] = n
 	}
 
-	if n.forward[0] == nil || bytes.Compare(n.forward[0].entry.Key, key) != 0 {
+	if n.forward[0] == nil || !bytes.Equal(n.forward[0].entry.Key, key) {
 		return
 	}
 
